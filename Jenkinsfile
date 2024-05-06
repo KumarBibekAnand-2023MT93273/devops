@@ -33,7 +33,7 @@ pipeline {
             cleanWs()
         }
         success {
-            archiveArtifacts 'target/*.jar'
+            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
         }
         failure {
             echo 'Build and compile failed!'
