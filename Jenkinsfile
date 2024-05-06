@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build and Compile') {
             steps {
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
     }
