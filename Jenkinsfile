@@ -1,7 +1,6 @@
 pipeline {
     agent any
-     tools {
-        // Install the Maven version configured as "M3" and add it to the path.
+    tools {
         jdk "JDK17"
         maven "Maven-3.9.6"
     }
@@ -17,22 +16,27 @@ pipeline {
                 bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
+        stage('Run Tests') {
+            steps {
+                bat "mvn test"
+            }
+            post {
+                success {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                }
+            }
+        }
     }
     
     post {
         always {
-            // Clean up workspace
             cleanWs()
         }
-         // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
         success {
-            junit '**/target/surefire-reports/TEST-*.xml'
             archiveArtifacts 'target/*.jar'
-         }
+        }
         failure {
             echo 'Build and compile failed!'
-            // Optionally, you can send notifications or take other actions on failure
         }
     }
 }
