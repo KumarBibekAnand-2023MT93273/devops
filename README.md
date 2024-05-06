@@ -1,1 +1,1 @@
-  yet test updated project info
+updated project info
